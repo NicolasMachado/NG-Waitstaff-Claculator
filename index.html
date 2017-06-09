@@ -6,26 +6,26 @@
       <script src="https://code.angularjs.org/1.3.11/angular.js"></script>
       <script src="app.js"></script>
   </head>
-  <body>
+  <body ng-controller="WaitStaffCtrl as vm">
     <h1>Waitstaff Calculator</h1>
     <div>
 
       <div class="meal-details">
         <h3>Enter Meal Details</h3>
-        <form id="meal-details-form">
+        <form name="formSubmit" novalidate id="meal-details-form" ng-submit="submit()">
           <div class="meal-labels">
             Base Meal Price: $ <br />
             Tax Rate: % <br />
             Tip Percentage: % <br />
           </div>
           <div class="meal-inputs">
-            <input type="number"><br />
-            <input type="number"><br />
-            <input type="number"><br />
+            <input required min="0" type="number" ng-model="vm.mdBaseMealPrice"><br />
+            <input required min="0" type="number" ng-model="vm.mdTaxRate"><br />
+            <input required min="0" type="number" ng-model="vm.mdTipPercentage"><br />
           </div>
           <p>
             <button type="submit">Submit</button>
-            <button type="reset">Reset</button>
+            <button type="reset">Reset</button>{{ vm.teste }}
           </p>
         </form>
       </div>
@@ -33,20 +33,20 @@
       <div class="right-cont">
         <div class="customer-charges">
           <h3>Customer charges</h3>
-          Subtotal: 0.00<br />
-          Tip: 0.00<br />
+          Subtotal: {{ vm.ccSubTotal | number : 2 }}<br />
+          Tip: {{ vm.ccTip | number : 2 }}<br />
           ______________<br />
-          Total: 0.00<br />
+          Total: {{ vm.ccSubTotal + vm.ccTip | number : 2 }}<br />
         </div>
 
         <div class="my-earning-info">
           <h3>My earning info</h3>
-          Tip total: 0.00<br />
-          Meal count: 0<br />
-          Avg tip per meal: 0.00<br />
+          Tip total: {{ vm.eiTipTotal | number : 2 }}<br />
+          Meal count: {{ vm.eiMealCount | number : 0 }}<br />
+          Avg tip per meal: {{ vm.eiTipTotal/vm.eiMealCount || 0.00 | number : 2 }}<br />
         </div>
       </div>
     </div>
-    <button>Reset</button>
+    <button ng-click="init()">Reset</button>
   </body>
 </html>
